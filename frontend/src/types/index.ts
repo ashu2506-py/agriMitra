@@ -1,16 +1,44 @@
-export type UserRole = 'FARMER' | 'BUYER' | 'FPO' | 'DRIVER' | 'ADMIN';
+export type UserRole =
+  | 'FARMER'
+  | 'BUYER'
+  | 'FPO'
+  | 'DRIVER'
+  | 'ADMIN';
 
-export interface User {
+export interface FarmerProfile {
   id: string;
-  email: string;
-  name: string;
-  role: Role;
-  isVerified: boolean;
+  userId: string;
+  farmSizeAcres: number;
+  district: string;
+  state: string;
+  pincode: string;
+  address: string;
+  latitude?: number | null;
+  longitude?: number | null;
+  cropsGrown: string;
+}
 
-  farmerProfile?: FarmerProfile | null;
-  buyerProfile?: BuyerProfile | null;
-  driverProfile?: DriverProfile | null;
-  fpoProfile?: FPOProfile | null;
+export interface BuyerProfile {
+  id: string;
+  userId: string;
+  companyName?: string | null;
+  buyerType: string;
+  gstNumber?: string | null;
+  district: string;
+  state: string;
+  pincode: string;
+  address: string;
+  latitude?: number | null;
+  longitude?: number | null;
+}
+
+export interface DriverProfile {
+  id: string;
+  userId: string;
+  licenseNumber: string;
+  vehicleType: string;
+  vehicleNumber: string;
+  capacityKg: number;
 }
 
 export interface FPOProfile {
@@ -23,7 +51,29 @@ export interface FPOProfile {
   pincode: string;
   totalFarmers: number;
 }
-export type ListingStatus = 'DRAFT' | 'ACTIVE' | 'RESERVED' | 'SOLD' | 'EXPIRED' | 'CANCELLED';
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: UserRole;
+  phone?: string | null;
+  avatarUrl?: string | null;
+  isVerified: boolean;
+
+  farmerProfile?: FarmerProfile | null;
+  buyerProfile?: BuyerProfile | null;
+  driverProfile?: DriverProfile | null;
+  fpoProfile?: FPOProfile | null;
+}
+
+export type ListingStatus =
+  | 'DRAFT'
+  | 'ACTIVE'
+  | 'RESERVED'
+  | 'SOLD'
+  | 'EXPIRED'
+  | 'CANCELLED';
 
 export interface CropListing {
   id: string;
@@ -77,7 +127,16 @@ export interface BuyerMatch {
   explanations: string[];
 }
 
-export type OrderStatus = 'PENDING' | 'CONFIRMED' | 'PROCESSING' | 'READY_FOR_PICKUP' | 'PICKED_UP' | 'IN_TRANSIT' | 'DELIVERED' | 'CANCELLED' | 'DISPUTED';
+export type OrderStatus =
+  | 'PENDING'
+  | 'CONFIRMED'
+  | 'PROCESSING'
+  | 'READY_FOR_PICKUP'
+  | 'PICKED_UP'
+  | 'IN_TRANSIT'
+  | 'DELIVERED'
+  | 'CANCELLED'
+  | 'DISPUTED';
 
 export interface Order {
   id: string;

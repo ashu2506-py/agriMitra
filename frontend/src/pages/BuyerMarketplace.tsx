@@ -157,7 +157,80 @@ export const BuyerMarketplace: React.FC = () => {
     });
   };
 
+  // Online crop images from Unsplash.
+  // These are used as the marketplace fallback so every crop gets
+  // a crop-specific image instead of always showing the wheat image.
+  const CROP_IMAGE_MAP: Record<string, string> = {
+    wheat:
+      'https://images.unsplash.com/photo-1663025293688-322e16b6cb66?auto=format&fit=crop&w=1200&q=85',
+    rice:
+      'https://images.unsplash.com/photo-1586201375761-83865001e31c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    paddy:
+      'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?auto=format&fit=crop&w=1200&q=85',
+    corn:
+      'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=1200&q=85',
+    maize:
+      'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=1200&q=85',
+    potato:
+      'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=1200&q=85',
+    tomato:
+      'https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=1200&q=85',
+    onion:
+      'https://images.unsplash.com/photo-1508747703725-719777637510?auto=format&fit=crop&w=1200&q=85',
+    carrot:
+      'https://images.unsplash.com/photo-1445282768818-728615cc910a?auto=format&fit=crop&w=1200&q=85',
+    apple:
+      'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=1200&q=85',
+    banana:
+      'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=1200&q=85',
+    mango:
+      'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=1200&q=85',
+    orange:
+      'https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=1200&q=85',
+    grapes:
+      'https://images.unsplash.com/photo-1537640538966-79f369143f8f?auto=format&fit=crop&w=1200&q=85',
+    cotton:
+      'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?auto=format&fit=crop&w=1200&q=85',
+    soybean:
+      'https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=1200&q=85',
+    sugarcane:
+      'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=1200&q=85',
+    barley:
+      'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=85',
+    millet:
+      'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=85',
+    pea:
+      'https://images.unsplash.com/photo-1587735243615-c03f25aaff15?auto=format&fit=crop&w=1200&q=85',
+    peas:
+      'https://images.unsplash.com/photo-1587735243615-c03f25aaff15?auto=format&fit=crop&w=1200&q=85',
+    chickpea:
+      'https://images.unsplash.com/photo-1515543904379-3d757afe72e4?auto=format&fit=crop&w=1200&q=85',
+    gram:
+      'https://images.unsplash.com/photo-1515543904379-3d757afe72e4?auto=format&fit=crop&w=1200&q=85',
+    lentil:
+      'https://images.unsplash.com/photo-1585995939379-3b8f8f7f6e1b?auto=format&fit=crop&w=1200&q=85',
+  };
+
   const getListingImage = (listing: CropListing) => {
+    const cropName = (listing.crop?.name || '').trim().toLowerCase();
+
+    // First try an exact crop name.
+    if (CROP_IMAGE_MAP[cropName]) {
+      return CROP_IMAGE_MAP[cropName];
+    }
+
+    // Then try keyword matching for names such as:
+    // "Basmati Rice", "Indian Wheat", "Sweet Corn", etc.
+    const matchedCrop = Object.keys(CROP_IMAGE_MAP).find((crop) =>
+      cropName.includes(crop)
+    );
+
+    if (matchedCrop) {
+      return CROP_IMAGE_MAP[matchedCrop];
+    }
+
+    // Keep uploaded listing images as a fallback for crops that are not
+    // present in the online crop map.
     const primaryImage = listing.images?.find(
       (image) => image.isPrimary
     );
@@ -165,7 +238,7 @@ export const BuyerMarketplace: React.FC = () => {
     return (
       primaryImage?.imageUrl ||
       listing.images?.[0]?.imageUrl ||
-      'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=1000&q=85'
+      'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=85'
     );
   };
 
