@@ -1,6 +1,4 @@
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  '';
+const API_URL = 'https://agri-mitra-backend.onrender.com';
 
 export const apiUrl = (path: string) => {
   return `${API_URL}${path}`;
