@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://agri-mitra-backend.onrender.com/api/:path*"
+    }
+  ]
+}
