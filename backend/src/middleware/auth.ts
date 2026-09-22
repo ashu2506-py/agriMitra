@@ -17,13 +17,25 @@ export const authenticate = (
       req.headers.authorization?.replace('Bearer ', '');
 
     if (!token) {
-      return sendError(res, 'Authentication token missing', 'UNAUTHORIZED', 401);
+      return sendError(
+        res,
+        'Authentication token missing',
+        'UNAUTHORIZED',
+        401
+      );
     }
 
     const decoded = verifyAccessToken(token);
+
     req.user = decoded;
+
     return next();
   } catch (error) {
-    return sendError(res, 'Invalid or expired authentication token', 'UNAUTHORIZED', 401);
+    return sendError(
+      res,
+      'Invalid or expired authentication token',
+      'UNAUTHORIZED',
+      401
+    );
   }
 };
